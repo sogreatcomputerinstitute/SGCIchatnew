@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGCI Chat</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+    
+<div class="app">
+    <div class="screen join-screen active">
+<div class="form">
+    <h2>Join Chatroom</h2>
+    <p class="use">Username</p>
+    <input type="text" id="username" class="in">
+
+<div class="form-input">
+    <button id="join-user">Join</button>
+</div>
+    </div></div>
+    <div class="screen chat-screen">
+        <div class="header">
+           <div class="nnn"> SGCI Chatroom</div> 
+           <button id="exit-chat">Exit</button>
+        </div>
+        <div class="messages">
+        </div>
+        <div class="image" id="upload" style="width: 0; height: 0; z-index: 2; transition: 1s;">
+        <input type="file" id="imageInput" accept="image/*" style="width: calc(100% - 25px); background-color: black; color: white; font-style: bold; border: 1px solid aqua; height: 100%;">
+        <a href="javascript:void(0)" style="color: black; position: absolute; text-decoration: none; float: right; font-family: cursive; font-size: 0;" id="close" onclick="closeimg()">X</a>
+    </div>
+        <div class="typebox">
+            <img src="image.PNG" onclick="openimg()" style="cursor: pointer;">
+            <input type="text" id="message-input">
+            <button id="send-message">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+   <script src="code.js"></script>
+   <script src="anim.js"></script>
+</body>
+</html>
