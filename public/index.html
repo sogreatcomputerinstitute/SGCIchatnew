@@ -7,39 +7,64 @@
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-    
 <div class="app">
+    <!-- Join Screen -->
     <div class="screen join-screen active">
-<div class="form">
-    <h2>Join Chatroom</h2>
-    <p class="use">Username</p>
-    <input type="text" id="username" class="in">
+        <div class="form">
+            <h2>Join Chatroom</h2>
+            <div id="message"></div>
+       
+        <div class="form-input">
+            <button id="login-user">Login</button>
+        </div>
+        <div class="form-input">
+            <button id="signup-user">Signup</button>
+        </div> </div>
+    </div>
 
-<div class="form-input">
-    <button id="join-user">Join</button>
-</div>
-    </div></div>
+    <!-- Chat Screen -->
     <div class="screen chat-screen">
         <div class="header">
-           <div class="nnn"> SGCI Chatroom</div> 
-           <button id="exit-chat">Exit</button>
+            <div class="nnn">SGCI Chatroom</div> 
+            <button id="exit-chat">Exit</button>
         </div>
-        <div class="messages">
+        <div class="messages"></div>
+        <div class="image" id="upload" style="width: 0; height: 0; z-index: 2; transition: 1s; border: 1px solid black;">
+            <input type="file" id="imageInput" accept="image/*" style="width: calc(100% - 25px); background-color: black; color: white; font-style: bold; border: 1px solid aqua; height: 100%;">
+            <a href="javascript:void(0)" style="color: black; position: absolute; text-decoration: none; float: right; font-family: cursive; font-size: 0;" id="close" onclick="closeimg()">X</a>
         </div>
-        <div class="image" id="upload" style="width: 0; height: 0; z-index: 2; transition: 1s;">
-        <input type="file" id="imageInput" accept="image/*" style="width: calc(100% - 25px); background-color: black; color: white; font-style: bold; border: 1px solid aqua; height: 100%;">
-        <a href="javascript:void(0)" style="color: black; position: absolute; text-decoration: none; float: right; font-family: cursive; font-size: 0;" id="close" onclick="closeimg()">X</a>
-    </div>
         <div class="typebox">
             <img src="image.PNG" onclick="openimg()" style="cursor: pointer;">
-            <input type="text" id="message-input">
+            <input type="text" id="message-input" placeholder="Type a message...">
             <button id="send-message">Send</button>
         </div>
     </div>
 </div>
 
+<!-- Login Modal -->
+<div class="modal" id="login-modal" style="display: none;">
+    <div class="modalcontent">
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button id="login-submit" class="btn">Login</button>
+        <button id="close-login-modal" class="btn">Close</button>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signup-modal" style="display: none;">
+    <div class="modalcontent">
+        <h2>Signup</h2>
+        <input type="text" id="signup-username" placeholder="Username" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button id="signup-submit" class="btn">Signup</button>
+        <button id="close-signup-modal" class="btn">Close</button>
+    </div>
+</div>
+</div>
 <script src="/socket.io/socket.io.js"></script>
-   <script src="code.js"></script>
-   <script src="anim.js"></script>
+<script src="code.js"></script>
+<script src="anim.js"></script>
 </body>
 </html>
