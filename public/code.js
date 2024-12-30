@@ -5,18 +5,71 @@
     const socket = io();
     
     let uname;
-    
-    app.querySelector(".join-screen #join-user").addEventListener("click", function() {
-        let username = app.querySelector(".join-screen #username").value;
-        if (username.length == 0) {
-            return;
-        }
-        socket.emit("newuser", username);
-        uname = username;
-        app.querySelector(".join-screen").classList.remove("active");
-        app.querySelector(".chat-screen").classList.add("active");
+
+    // Show the login modal
+    document.getElementById('login-user').addEventListener('click', function() {
+        document.getElementById('login-modal').style.display = 'block';
     });
-    
+    // Show the signup modal
+    document.getElementById('signup-user').addEventListener('click', function() {
+        document.getElementById('signup-modal').style.display = 'block';
+    });
+    // Close login modal
+    document.getElementById('close-login-modal').addEventListener('click', function() {
+        document.getElementById('login-modal').style.display = 'none';
+    });
+    // Close signup modal
+    document.getElementById('close-signup-modal').addEventListener('click', function() {
+        document.getElementById('signup-modal').style.display = 'none';
+    });
+    // Handle login submission
+    document.getElementById('login-submit').addEventListener('click', function() {
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.message === 'Login successful') {
+                uname = username;
+                document.getElementById('login-modal').style.display = 'none';
+                app.querySelector(".join-screen").classList.remove("active");
+                app.querySelector(".chat-screen").classList.add("active");
+                socket.emit("newuser", uname); // Notify server of new user
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Handle signup submission
+    document.getElementById('signup-submit').addEventListener('click', function() {
+        const username = document.getElementById('signup-username').value;
+        const password = document.getElementById('signup-password').value;
+
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.message === 'User  registered successfully, Please Login to Continue...') {
+                document.getElementById('signup-modal').style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+    // Handle sending messages
     app.querySelector(".chat-screen #send-message").addEventListener("click", function() {
         let message = app.querySelector(".chat-screen #message-input").value;
         if (message.length > 0) {
@@ -31,12 +84,13 @@
             app.querySelector(".chat-screen #message-input").value = "";
         }
     });
-    
+
+    // Handle exiting the chat
     app.querySelector(".chat-screen #exit-chat").addEventListener("click", function() {
         socket.emit("exituser", uname);
-        window.location.href = window.location.href;
+        window.location.href = window.location.href; // Reload the page
     });
-    
+
     socket.on("update", function(update) {
         renderMessage("update", update);
     });
@@ -94,5 +148,4 @@
             reader.readAsDataURL(file);
         }
     };
-    
 })();
